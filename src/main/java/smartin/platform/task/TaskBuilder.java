@@ -1,4 +1,4 @@
 package smartin.platform.task;
 
-public class TaskBuilder {
+public interface TaskBuilder {
 }
