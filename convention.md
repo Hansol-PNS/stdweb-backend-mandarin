@@ -53,49 +53,43 @@
            - 하나의 대문자, 혹은 뒤에 하나의 숫자가 따라 올 수 있다. (ex. `E`, `T`, `X`, `T2`)
            - 클래스를 위해 사용되는 이름의 형식에 T 대문자가 따라오는 형식 (ex. `RequestT`)
 3. git 전략
-   - gitflow 전략을 따르며 협의에 따라 조정할 수 있다.
-   ![image.png](https://www.abtasty.com/wp-content/uploads/gitflow-branching-strategy.png)
+    1. branch strategy
 
-    - **브랜치 구분**
-    
-| Category | Description              | 분기 브랜치           | 병합 브랜치        |
-|----------|--------------------------|------------------|---------------|
-| main      | 제품으로 출시될 수 있는 브랜치        |                  |               |
-| develop   | 다음 출시 버전을 개발하는 브랜치       |                  |               |
-| feature   | 기능을 개발하는 브랜치             | develop          | develop    |
-| release   | 이번 출시 버전을 준비하는 브랜치       | develop, feature | main      |
-| hotfix    | 출시 버전에서 발생한 버그를 수정하는 브랜치 | main             | main, develop |
+       - gitflow 전략을 따르며 협의에 따라 조정할 수 있다.
+         ![image.png](https://www.abtasty.com/wp-content/uploads/gitflow-branching-strategy.png)
+       - **브랜치 구분**
+            
+            | Category | Description              | 분기 브랜치           | 병합 브랜치        |
+            |----------|--------------------------|------------------|---------------|
+            | main      | 제품으로 출시될 수 있는 브랜치        |                  |               |
+            | develop   | 다음 출시 버전을 개발하는 브랜치       |                  |               |
+            | feature   | 기능을 개발하는 브랜치             | develop          | develop    |
+            | release   | 이번 출시 버전을 준비하는 브랜치       | develop, feature | main      |
+            | hotfix    | 출시 버전에서 발생한 버그를 수정하는 브랜치 | main             | main, develop |
 
+    2. Jira-branch 연동 규칙
+       - 브랜치를 직접 만들 때 `<Jira 프로젝트 코드>-<이슈번호>` 를 Prefix 로 사용하면 해당 이슈와 연동된다.
+       - Jira 이슈에서 브랜치를 만들면 자동으로 이슈와 연동된다.
+       - 모든 브랜치는 Jira 의 이슈와 연동되어야 한다.
 
-4. commit 메세지 작성 규칙
-   - 작업 진행중 조정 예정
+5. commit 메세지 작성 규칙
    - 기본 **commit 메세지 구조**
      ```
-          <type>(<scope>): <subject> -- 헤더
+          <Jira project code>-<Jira issue no>-<subject> -- 헤더
           <BLANK LINE> -- 빈 줄
           <body> -- 본문
-          <BLANK LINE> -- 빈 줄
-          <footer> -- 바닥 글
-    
-          예시)
-          Feat: 이벤트 알림 ON/OFF 기능 추가
-     
-          이벤트 알림을 각각 ON/OFF 할 수 있도록 기능을 추가함
-          해결: close #12345
-      ```
+     ```
+      예시)
+     ```
+      MDR-1 이벤트 알림 ON/OFF 기능 추가
 
-      - 제목은 30자 이내로 간결하게 요약하여 작성하기
-      - 본문은 `어떻게` 보다 `무엇을`, `왜` 에 초점을 맞춰 작성하기
+      이벤트 알림을 각각 ON/OFF 할 수 있도록 기능을 추가함
+     ```
+      - `<Jira 프로젝트 코드>-<이슈번호>` 를 Prefix 로 사용하여 Jira 에서 모든 커밋을 트래킹할 수 있어야 한다.
+      - 제목은 30자 이내로 간결하게 요약하여 작성한다.
+      - 본문은 작성이 필요한 경우에만 작성하며 제목과 본문 사이 빈 줄 1줄을 삽입한다.
+      - 본문은 `어떻게` 보다 `무엇을`, `왜` 에 초점을 맞춰 작성한다.
 
-   - **메시지 유형(Type)**
 
-     | Type | Description |
-     | --- | --- |
-     | feat | 새로운 기능에 대한 커밋 |
-     | fix  | 수정에 대한 커밋 |
-     | build  | 빌드 관련 파일 수정에 대한 커밋 |
-     | ci  | CI 관련 설정 수정에 대한 커밋 |
-     | docs  | 문서 수정에 대한 커밋 |
-     | style  | 코드 스타일, 포맷에 관한 커밋 |
-     | refactor  | 코드 리팩토링에 대한 커밋 |
-     | test  | 테스트 코드 수정에 대한 커밋 |
+
+
