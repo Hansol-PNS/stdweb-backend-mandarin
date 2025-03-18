@@ -2,10 +2,10 @@ package smartin.platform.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 import smartin.platform.task.impl.TaskAbstract;
-import smartin.platform.task.impl.TaskImpl;
 
 public class TaskBuilderTest {
 
@@ -29,7 +29,7 @@ public class TaskBuilderTest {
         return new GreetingTask(taskConfig);
       }
 
-      return new TaskImpl(taskConfig);
+      throw new IllegalArgumentException();
     }
   }
 
@@ -51,8 +51,28 @@ public class TaskBuilderTest {
     }
   }
 
+
+  static class InvalidTaskConfigImpl implements TaskConfig {
+
+    @Override
+    public String getId() {
+      return "id_task_1";
+    }
+
+    @Override
+    public String getType() {
+      return "NotTaskType";
+    }
+
+    @Override
+    public TaskConfigValue getConfigParam(String key) {
+      return null;
+    }
+  }
+
+
   @Test
-  void test_buildTask() {
+  void testBuildTask_WhenValidInput_ShouldCreateTaskSuccessfully() {
     TaskConfig taskConfig = new TaskConfigImpl();
 
     TaskBuilder taskBuilderImpl = new TaskBuilderImpl();
@@ -65,5 +85,27 @@ public class TaskBuilderTest {
       assertEquals("id_task_1", greetingTask.getId());
       assertEquals(GreetingTask.class, resultTask.getClass());
     }
+  }
+
+  @Test
+  void testBuildTask_WhenTaskConfigIsNull_ShouldThrowException() {
+    TaskConfig taskConfig = null;
+
+    TaskBuilder taskBuilderImpl = new TaskBuilderImpl();
+
+    assertThrows(NullPointerException.class, () -> {
+      Task resultTask = taskBuilderImpl.buildTask(taskConfig);
+    });
+  }
+
+  @Test
+  void testBuildTask_WhenInvalidType_ShouldThrowException() {
+    TaskConfig taskConfig = new InvalidTaskConfigImpl();
+
+    TaskBuilder taskBuilderImpl = new TaskBuilderImpl();
+
+    assertThrows(IllegalArgumentException.class, () -> {
+      Task resultTask = taskBuilderImpl.buildTask(taskConfig);
+    });
   }
 }
