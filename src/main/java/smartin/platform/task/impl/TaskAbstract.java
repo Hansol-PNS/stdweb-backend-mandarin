@@ -9,16 +9,21 @@ public abstract class TaskAbstract implements Task {
   private String id;
   private String type;
 
-  public String getId(){
+  public TaskAbstract(String id, String type) {
+    this.id = id;
+    this.type = type;
+  }
+
+  public String getId() {
     return this.id;
   }
 
-  public String getType(){
+  public String getType() {
     return this.type;
   }
 
   @Override
-  public TaskResult execute(TaskParams taskParams){
+  public TaskResult execute(TaskParams taskParams) {
     return run(taskParams);
   }
 
