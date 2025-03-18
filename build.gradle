@@ -5,15 +5,39 @@ plugins {
 group = 'smartin.platform'
 version = '1.0-SNAPSHOT'
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
 repositories {
     mavenCentral()
 }
 
-dependencies {
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+ext {
+    junitVersion = "5.10.0"
+    lombokVersion = "1.18.36"
+    slf4jVersion = "2.0.17"
+    logbackVersion = "1.5.17"
 }
 
 test {
     useJUnitPlatform()
 }
+
+dependencies {
+    testImplementation platform("org.junit:junit-bom:$junitVersion")
+    testImplementation "org.junit.jupiter:junit-jupiter:$junitVersion"
+
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+
+    testCompileOnly "org.projectlombok:lombok:$lombokVersion"
+    testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
+
+    // Logger dependencies
+    implementation "org.slf4j:slf4j-api:$slf4jVersion"
+    runtimeOnly "ch.qos.logback:logback-classic:$logbackVersion"
+}
+
