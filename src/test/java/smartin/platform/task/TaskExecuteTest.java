@@ -1,12 +1,15 @@
 package smartin.platform.task;
 
+import static smartin.platform.task.contants.TaskConstants.KEY_ID;
+import static smartin.platform.task.contants.TaskConstants.KEY_TYPE;
+
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import smartin.platform.task.TaskBuilderTest.TaskConfigImpl;
 import smartin.platform.task.contants.TaskConstants;
 import smartin.platform.task.impl.GreetingTask;
+import smartin.platform.task.impl.TaskConfigImpl;
 import smartin.platform.task.impl.TaskParamsBuilderImpl;
 
 @Slf4j
@@ -22,13 +25,18 @@ class TaskExecuteTest {
     String testDataNameValue = "홍길동";
     Map<String, Object> testData = Map.of(testDataNameKey, testDataNameValue);
     Map<String, Object> params = Map.of(
-        TaskConstants.KEY_ID, testId,
+        KEY_ID, testId,
         TaskConstants.KEY_TYPE, testType,
         TaskConstants.KEY_DATA, testData
     );
     TaskParams taskParams = taskParamsBuilder.buildTaskParams(params);
 
-    GreetingTask greetingTask = new GreetingTask(new TaskConfigImpl());
+    Map<String, Object> configMap = Map.of(
+        KEY_ID, "id_task_1",
+        KEY_TYPE, "smartin.platform.task.impl.GreetingTask"
+    );
+
+    GreetingTask greetingTask = new GreetingTask(new TaskConfigImpl(configMap));
     String testTaskResultData = "Hello World, " + testDataNameValue;
 
     // When
