@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Map;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import smartin.platform.task.contants.TaskConstants;
 import smartin.platform.task.impl.GreetingTaskParams;
@@ -61,6 +62,7 @@ class TaskParamsTest {
   }
 
   @Test
+  @DisplayName("name을 key로 TaskParams의 data를 조회하여 결과를 확인한다.")
   void getData() {
     // given
     String testDataNameKey = "name";
@@ -79,6 +81,7 @@ class TaskParamsTest {
   }
 
   @Test
+  @DisplayName("name을 key로 TaskParams의 key의 존재여부를 확인한다.")
   void hasKey() {
     // given
     String testId = "GreetingTask";

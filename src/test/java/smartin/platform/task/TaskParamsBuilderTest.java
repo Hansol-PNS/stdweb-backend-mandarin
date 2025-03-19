@@ -1,4 +1,4 @@
-package smartin.platform.task.impl;
+package smartin.platform.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -9,11 +9,11 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
-import smartin.platform.task.TaskParams;
-import smartin.platform.task.TaskParamsBuilder;
 import smartin.platform.task.contants.TaskConstants;
+import smartin.platform.task.impl.GreetingTaskParams;
+import smartin.platform.task.impl.TaskParamsBuilderImpl;
 
-class TaskParamsBuilderImplTest {
+class TaskParamsBuilderTest {
 
   @Test
   @DisplayName("성공:buildTaskParams")
@@ -31,8 +31,7 @@ class TaskParamsBuilderImplTest {
         TaskConstants.KEY_DATA, testData
     );
     // When
-    TaskParams taskParams = null;
-    taskParams = builder.buildTaskParams(params);
+    TaskParams taskParams = builder.buildTaskParams(params);
 
     // Then
     // TaskParams는 GreetingTaskParams 클래스 타입이다.
