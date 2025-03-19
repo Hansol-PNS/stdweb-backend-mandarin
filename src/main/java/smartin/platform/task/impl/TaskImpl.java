@@ -7,7 +7,7 @@ import smartin.platform.task.TaskResult;
 public class TaskImpl extends TaskAbstract {
 
   public TaskImpl(TaskConfig taskConfig) {
-    super(taskConfig.getId(), taskConfig.getType());
+    super(taskConfig);
   }
 
   @Override

@@ -12,4 +12,6 @@ public final class TaskConstants {
 
   public static final String KEY_TASK_RESULT_ROOT = "tasks";
 
+  public static final String KEY_TASK_CONFIG_PARAMS = "config_params";
+
 }
