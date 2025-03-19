@@ -3,59 +3,27 @@ package smartin.platform.task;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static smartin.platform.task.contants.TaskConstants.KEY_ID;
+import static smartin.platform.task.contants.TaskConstants.KEY_TYPE;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import smartin.platform.task.impl.GreetingTask;
 import smartin.platform.task.impl.TaskBuilderImpl;
+import smartin.platform.task.impl.TaskConfigImpl;
 
 public class TaskBuilderTest {
 
-  static class TaskConfigImpl implements TaskConfig {
-
-    @Override
-    public String getId() {
-      return "id_task_1";
-    }
-
-    @Override
-    public String getType() {
-      return "GreetingTask";
-    }
-
-    @Override
-    public TaskConfigValue getConfigParam(String key) {
-      return null;
-    }
-  }
-
-
-  static class InvalidTaskConfigImpl implements TaskConfig {
-
-    @Override
-    public String getId() {
-      return "id_task_1";
-    }
-
-    @Override
-    public String getType() {
-      return "NotTaskType";
-    }
-
-    @Override
-    public TaskConfigValue getConfigParam(String key) {
-      return null;
-    }
-  }
-
-
   @Test
   void testBuildTask_WhenValidInput_ShouldCreateTaskSuccessfully() {
-    TaskConfig taskConfig = new TaskConfigImpl();
+    Map<String, Object> configMap = new HashMap<>();
+    configMap.put(KEY_ID, "id_task_1");
+    configMap.put(KEY_TYPE, "smartin.platform.task.impl.GreetingTask");
 
+    TaskConfig taskConfig = new TaskConfigImpl(configMap);
     TaskBuilder taskBuilder = new TaskBuilderImpl();
     Task resultTask = taskBuilder.buildTask(taskConfig);
-
-    System.out.println("resultTask.getClass() = " + resultTask.getClass());
 
     if (resultTask instanceof GreetingTask greetingTask) {
       assertNotNull(greetingTask);
@@ -77,7 +45,11 @@ public class TaskBuilderTest {
 
   @Test
   void testBuildTask_WhenInvalidType_ShouldThrowException() {
-    TaskConfig taskConfig = new InvalidTaskConfigImpl();
+    Map<String, Object> configMap = new HashMap<>();
+    configMap.put(KEY_ID, "id_task_1");
+    configMap.put(KEY_TYPE, "NotTaskType");
+
+    TaskConfig taskConfig = new TaskConfigImpl(configMap);
 
     TaskBuilder taskBuilderImpl = new TaskBuilderImpl();
 
