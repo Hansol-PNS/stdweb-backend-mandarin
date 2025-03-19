@@ -9,7 +9,7 @@ public class GreetingTask extends TaskAbstract {
   private static final String MESSAGE_FORMAT = "Hello World, %s";
 
   public GreetingTask(TaskConfig config) {
-    super(config.getId(), config.getType());
+    super(config);
   }
 
   @Override
