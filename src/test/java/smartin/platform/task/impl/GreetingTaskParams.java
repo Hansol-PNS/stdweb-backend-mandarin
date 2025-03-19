@@ -11,6 +11,9 @@ public class GreetingTaskParams extends TaskParamsAbstract {
 
   @Override
   public Object getData(String key) {
+    if (key == null) {
+      throw new NullPointerException("key is null");
+    }
     return dataMap.get(key);
   }
 

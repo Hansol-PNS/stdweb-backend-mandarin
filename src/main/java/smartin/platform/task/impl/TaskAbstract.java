@@ -25,6 +25,9 @@ public abstract class TaskAbstract implements Task {
 
   @Override
   public TaskResult execute(TaskParams taskParams) {
+    if (taskParams == null) {
+      throw new IllegalArgumentException("TaskParams cannot be null");
+    }
     return run(taskParams);
   }
 

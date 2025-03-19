@@ -11,8 +11,8 @@ public abstract class TaskParamsAbstract implements TaskParams {
   protected Map<String, ?> dataMap;
 
   public TaskParamsAbstract(Map<String, ?> params) {
-    this.id = params.get(TaskConstants.KEY_ID).toString();
-    this.type = params.get(TaskConstants.KEY_TYPE).toString();
+    this.id = (String) params.get(TaskConstants.KEY_ID);
+    this.type = (String) params.get(TaskConstants.KEY_TYPE);
     this.dataMap = (Map<String, ?>) params.get(TaskConstants.KEY_DATA);
   }
 
