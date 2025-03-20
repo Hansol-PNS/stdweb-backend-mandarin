@@ -4,15 +4,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import extension.TestRegistryExtension;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 import smartin.platform.task.contants.TaskConstants;
 import smartin.platform.task.impl.GreetingTaskParams;
 import smartin.platform.task.impl.TaskParamsBuilderImpl;
 
+@ExtendWith(TestRegistryExtension.class)
 class TaskParamsBuilderTest {
 
   @Test
@@ -80,7 +83,7 @@ class TaskParamsBuilderTest {
     // When
     Executable executable = () -> builder.buildTaskParams(params);
     // Then
-    assertThrows(ClassNotFoundException.class, executable);
+    assertThrows(IllegalArgumentException.class, executable);
   }
 
   @Test

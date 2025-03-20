@@ -4,11 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static smartin.platform.task.contants.TaskConstants.KEY_ID;
 import static smartin.platform.task.contants.TaskConstants.KEY_TYPE;
 
+import extension.TestRegistryExtension;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 import smartin.platform.task.contants.TaskConstants;
 import smartin.platform.task.impl.GreetingTask;
@@ -16,6 +18,7 @@ import smartin.platform.task.impl.TaskConfigImpl;
 import smartin.platform.task.impl.TaskParamsBuilderImpl;
 
 @Slf4j
+@ExtendWith(TestRegistryExtension.class)
 class TaskExecuteTest {
 
   @Test
