@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import smartin.platform.task.TaskParams;
+import smartin.platform.task.exception.TaskConfigurationException;
 
 // TaskParams 객체 정보를 담고 있는 저장소
 public class TaskParamsRegistry {
@@ -14,10 +15,10 @@ public class TaskParamsRegistry {
     registry.put(typeName.toUpperCase(), creator);
   }
 
-  public static TaskParams get(String typeName, Map<String, Object> params) {
+  public static TaskParams get(String typeName, Map<String, Object> params) throws TaskConfigurationException {
     Function<Map<String, Object>, TaskParams> creator = registry.get(typeName.toUpperCase());
     if (creator == null) {
-      throw new IllegalArgumentException("Unknown task params type: " + typeName);
+      throw new TaskConfigurationException(new IllegalArgumentException("Unknown task params type: " + typeName));
     }
 
     return creator.apply(params);

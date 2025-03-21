@@ -4,6 +4,7 @@ import smartin.platform.task.Task;
 import smartin.platform.task.TaskConfig;
 import smartin.platform.task.TaskParams;
 import smartin.platform.task.TaskResult;
+import smartin.platform.task.exception.TaskExecutionException;
 
 public abstract class TaskAbstract implements Task {
 
@@ -24,12 +25,12 @@ public abstract class TaskAbstract implements Task {
   }
 
   @Override
-  public TaskResult execute(TaskParams taskParams) {
+  public TaskResult execute(TaskParams taskParams) throws TaskExecutionException {
     if (taskParams == null) {
-      throw new IllegalArgumentException("TaskParams cannot be null");
+      throw new TaskExecutionException(new IllegalArgumentException("TaskParams cannot be null"));
     }
     return run(taskParams);
   }
 
-  protected abstract TaskResult run(TaskParams taskParams);
+  protected abstract TaskResult run(TaskParams taskParams) throws TaskExecutionException;
 }
