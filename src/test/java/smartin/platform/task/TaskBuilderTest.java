@@ -6,13 +6,16 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static smartin.platform.task.contants.TaskConstants.KEY_ID;
 import static smartin.platform.task.contants.TaskConstants.KEY_TYPE;
 
+import extension.TestRegistryExtension;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import smartin.platform.task.impl.GreetingTask;
 import smartin.platform.task.impl.TaskBuilderImpl;
 import smartin.platform.task.impl.TaskConfigImpl;
 
+@ExtendWith(TestRegistryExtension.class)
 public class TaskBuilderTest {
 
   @Test
