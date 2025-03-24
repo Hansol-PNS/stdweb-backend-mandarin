@@ -11,16 +11,16 @@ public abstract class TaskAbstract implements Task {
   private String id;
   private String type;
 
-  public TaskAbstract(TaskConfig config) {
+  protected TaskAbstract(TaskConfig config) {
     this.id = config.getId();
     this.type = config.getType();
   }
 
-  public String getId() {
+  protected String getId() {
     return this.id;
   }
 
-  public String getType() {
+  protected String getType() {
     return this.type;
   }
 

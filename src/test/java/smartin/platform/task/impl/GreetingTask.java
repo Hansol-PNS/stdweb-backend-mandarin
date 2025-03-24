@@ -13,6 +13,14 @@ public class GreetingTask extends TaskAbstract {
     super(config);
   }
 
+  public String getId() {
+    return super.getId();
+  }
+
+  public String getType() {
+    return super.getType();
+  }
+
   @Override
   protected TaskResult run(TaskParams taskParams) throws TaskExecutionException {
     String name = (String) taskParams.getData("name");
