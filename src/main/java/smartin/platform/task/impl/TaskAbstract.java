@@ -29,6 +29,7 @@ public abstract class TaskAbstract implements Task {
     if (taskParams == null) {
       throw new TaskExecutionException(new IllegalArgumentException("TaskParams cannot be null"));
     }
+
     return run(taskParams);
   }
 
