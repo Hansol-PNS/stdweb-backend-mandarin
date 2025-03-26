@@ -1,11 +1,9 @@
 package smartin.platform.task.exception;
 
-import smartin.platform.common.exception.BaseException;
+public class TaskExecutionException extends Exception {
 
-public class TaskExecutionException extends BaseException {
-
-  public TaskExecutionException(Exception parent) {
-    super(parent);
+  public TaskExecutionException(String message, Exception parent) {
+    super(message, parent);
   }
 
 }

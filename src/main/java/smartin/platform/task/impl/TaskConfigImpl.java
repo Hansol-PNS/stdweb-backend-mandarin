@@ -37,7 +37,7 @@ public class TaskConfigImpl implements TaskConfig {
   public TaskConfigValue getConfigParam(String key) throws TaskConfigurationException {
 
     if (!params.containsKey(key)) {
-      throw new TaskConfigurationException(new IllegalArgumentException());
+      throw new TaskConfigurationException("", new IllegalArgumentException());
     }
 
     return params.get(key);

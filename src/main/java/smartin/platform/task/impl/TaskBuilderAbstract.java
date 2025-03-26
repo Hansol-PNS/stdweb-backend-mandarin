@@ -12,13 +12,13 @@ public abstract class TaskBuilderAbstract implements TaskBuilder {
   public Task buildTask(TaskConfig config) throws TaskConfigurationException {
 
     if (config == null) {
-      throw new TaskConfigurationException(new NullPointerException("taskConfig is null"));
+      throw new TaskConfigurationException("taskConfig is null", new NullPointerException());
     }
 
     String className = config.getType();
 
     if (Objects.isNull(className) || className.isEmpty()) {
-      throw new TaskConfigurationException(new IllegalArgumentException("Task type missing in config"));
+      throw new TaskConfigurationException("Task type missing in config", new IllegalArgumentException());
     }
 
     return build(generate(className, config), config);

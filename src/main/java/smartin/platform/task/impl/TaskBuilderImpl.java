@@ -13,7 +13,7 @@ public class TaskBuilderImpl extends TaskBuilderAbstract {
       case "GreetingTask":
         return new GreetingTask(config);
       default:
-        throw new TaskConfigurationException(new IllegalArgumentException("No matching type found: " + type));
+        throw new TaskConfigurationException("No matching type found: " + type, new IllegalArgumentException());
     }
 
   }

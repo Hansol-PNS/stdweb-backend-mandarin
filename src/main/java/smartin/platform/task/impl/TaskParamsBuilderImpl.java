@@ -16,7 +16,7 @@ public class TaskParamsBuilderImpl extends TaskParamsBuilderAbstract {
       case "GreetingTaskParams":
         return new GreetingTaskParams(params);
       default:
-        throw new TaskConfigurationException(new IllegalArgumentException("No matching type found: " + type));
+        throw new TaskConfigurationException("No matching type found: " + type, new IllegalArgumentException());
     }
   }
 

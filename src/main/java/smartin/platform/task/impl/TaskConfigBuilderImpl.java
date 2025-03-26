@@ -13,11 +13,11 @@ public class TaskConfigBuilderImpl implements TaskConfigBuilder {
   @Override
   public TaskConfig buildTaskConfig(Map<String, Object> configMap) throws TaskConfigurationException {
     if (configMap.get(KEY_ID) == null || configMap.get(KEY_ID).toString().isEmpty()) {
-      throw new TaskConfigurationException(new IllegalArgumentException());
+      throw new TaskConfigurationException("'id' cannot be null or empty", new IllegalArgumentException());
     }
 
     if (configMap.get(KEY_TYPE) == null || configMap.get(KEY_TYPE).toString().isEmpty()) {
-      throw new TaskConfigurationException(new IllegalArgumentException());
+      throw new TaskConfigurationException("'type' cannot be null or empty", new IllegalArgumentException());
     }
 
     return new TaskConfigImpl(configMap);
