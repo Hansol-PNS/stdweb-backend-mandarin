@@ -5,13 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static smartin.platform.task.contants.TaskConstants.KEY_ID;
 import static smartin.platform.task.contants.TaskConstants.KEY_TYPE;
 
-import extension.TestRegistryExtension;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 import smartin.platform.task.contants.TaskConstants;
 import smartin.platform.task.exception.TaskExecutionException;
@@ -20,7 +18,6 @@ import smartin.platform.task.impl.TaskConfigImpl;
 import smartin.platform.task.impl.TaskParamsBuilderImpl;
 
 @Slf4j
-@ExtendWith(TestRegistryExtension.class)
 class TaskExecuteTest {
 
   @Test
@@ -31,7 +28,7 @@ class TaskExecuteTest {
       // given
       TaskParamsBuilder taskParamsBuilder = new TaskParamsBuilderImpl();
       String testId = "GreetingTask";
-      String testType = "smartin.platform.task.impl.GreetingTaskParams";
+      String testType = "GreetingTaskParams";
       String testDataNameKey = "name";
       String testDataNameValue = "홍길동";
       Map<String, Object> testData = Map.of(testDataNameKey, testDataNameValue);
@@ -44,7 +41,7 @@ class TaskExecuteTest {
 
       Map<String, Object> configMap = Map.of(
           KEY_ID, "id_task_1",
-          KEY_TYPE, "smartin.platform.task.impl.GreetingTask"
+          KEY_TYPE, "GreetingTask"
       );
 
       GreetingTask greetingTask = new GreetingTask(new TaskConfigImpl(configMap));
@@ -100,7 +97,7 @@ class TaskExecuteTest {
     // given
     TaskParamsBuilder taskParamsBuilder = new TaskParamsBuilderImpl();
     String testId = "GreetingTask";
-    String testType = "smartin.platform.task.impl.GreetingTaskParams";
+    String testType = "GreetingTaskParams";
     String testDataNameKey = "name";
     String testDataNameValue = "";
     Map<String, Object> testData = Map.of(testDataNameKey, testDataNameValue);
@@ -114,7 +111,7 @@ class TaskExecuteTest {
 
     Map<String, Object> configMap = Map.of(
         KEY_ID, "id_task_1",
-        KEY_TYPE, "smartin.platform.task.impl.GreetingTask"
+        KEY_TYPE, "GreetingTask"
     );
 
     GreetingTask greetingTask = new GreetingTask(new TaskConfigImpl(configMap));

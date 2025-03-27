@@ -7,17 +7,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static smartin.platform.task.contants.TaskConstants.KEY_ID;
 import static smartin.platform.task.contants.TaskConstants.KEY_TYPE;
 
-import extension.TestRegistryExtension;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import smartin.platform.task.exception.TaskConfigurationException;
 import smartin.platform.task.impl.GreetingTask;
 import smartin.platform.task.impl.TaskBuilderImpl;
 import smartin.platform.task.impl.TaskConfigImpl;
 
-@ExtendWith(TestRegistryExtension.class)
 public class TaskBuilderTest {
 
   @Test
@@ -25,7 +22,7 @@ public class TaskBuilderTest {
 
     Map<String, Object> configMap = new HashMap<>();
     configMap.put(KEY_ID, "id_task_1");
-    configMap.put(KEY_TYPE, "smartin.platform.task.impl.GreetingTask");
+    configMap.put(KEY_TYPE, "GreetingTask");
 
     TaskConfig taskConfig = new TaskConfigImpl(configMap);
     TaskBuilder taskBuilder = new TaskBuilderImpl();
@@ -35,7 +32,7 @@ public class TaskBuilderTest {
 
     if (resultTask instanceof GreetingTask greetingTask) {
       assertNotNull(greetingTask);
-      assertEquals("id_task_1", greetingTask.getId());
+      assertEquals("id_task_1", GreetingTask.ForTest.getId(greetingTask));
       assertEquals(GreetingTask.class, resultTask.getClass());
     }
 
