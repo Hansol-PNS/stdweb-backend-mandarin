@@ -1,42 +1,25 @@
 package smartin.platform.task.impl;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Objects;
 import smartin.platform.task.Task;
-import smartin.platform.task.TaskBuilder;
 import smartin.platform.task.TaskConfig;
+import smartin.platform.task.exception.TaskConfigurationException;
 
-public class TaskBuilderImpl implements TaskBuilder {
+public class TaskBuilderImpl extends TaskBuilderAbstract {
 
   @Override
-  public Task buildTask(TaskConfig taskConfig) {
+  public Task generate(String type, TaskConfig config) throws TaskConfigurationException {
 
-    try {
-      if (taskConfig == null) {
-        throw new NullPointerException("taskConfig is null");
-      }
-
-      String className = taskConfig.getType();
-
-      if (Objects.isNull(className) || className.isEmpty()) {
-        throw new IllegalArgumentException("Class name is missing in config");
-      }
-
-      Class<?> clazz = Class.forName(className);
-
-      Constructor<?> constructor = clazz.getConstructor(TaskConfig.class);
-
-      Object newInstance = constructor.newInstance(taskConfig);
-
-      if (!(newInstance instanceof Task)) {
-        throw new IllegalArgumentException("Object is Not instance of Task");
-      }
-
-      return (Task) newInstance;
-
-    } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-      throw new IllegalArgumentException(e);
+    switch (type) {
+      case "GreetingTask":
+        return new GreetingTask(config);
+      default:
+        throw new TaskConfigurationException("No matching type found: " + type, new IllegalArgumentException());
     }
+
+  }
+
+  @Override
+  public Task build(Task task, TaskConfig config) throws TaskConfigurationException {
+    return task;
   }
 }

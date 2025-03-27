@@ -7,6 +7,7 @@ import static smartin.platform.task.contants.TaskConstants.KEY_TYPE;
 import java.util.Map;
 import smartin.platform.task.TaskConfig;
 import smartin.platform.task.TaskConfigValue;
+import smartin.platform.task.exception.TaskConfigurationException;
 
 public class TaskConfigImpl implements TaskConfig {
 
@@ -33,10 +34,10 @@ public class TaskConfigImpl implements TaskConfig {
   }
 
   @Override
-  public TaskConfigValue getConfigParam(String key) {
+  public TaskConfigValue getConfigParam(String key) throws TaskConfigurationException {
 
     if (!params.containsKey(key)) {
-      throw new IllegalArgumentException();
+      throw new TaskConfigurationException("", new IllegalArgumentException());
     }
 
     return params.get(key);

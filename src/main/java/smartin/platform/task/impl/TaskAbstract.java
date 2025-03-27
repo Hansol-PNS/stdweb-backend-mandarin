@@ -4,32 +4,34 @@ import smartin.platform.task.Task;
 import smartin.platform.task.TaskConfig;
 import smartin.platform.task.TaskParams;
 import smartin.platform.task.TaskResult;
+import smartin.platform.task.exception.TaskExecutionException;
 
 public abstract class TaskAbstract implements Task {
 
   private String id;
   private String type;
 
-  public TaskAbstract(TaskConfig config) {
+  protected TaskAbstract(TaskConfig config) {
     this.id = config.getId();
     this.type = config.getType();
   }
 
-  public String getId() {
+  protected String getId() {
     return this.id;
   }
 
-  public String getType() {
+  protected String getType() {
     return this.type;
   }
 
   @Override
-  public TaskResult execute(TaskParams taskParams) {
+  public TaskResult execute(TaskParams taskParams) throws TaskExecutionException {
     if (taskParams == null) {
-      throw new IllegalArgumentException("TaskParams cannot be null");
+      throw new TaskExecutionException("TaskParams cannot be null", new IllegalArgumentException());
     }
+
     return run(taskParams);
   }
 
-  protected abstract TaskResult run(TaskParams taskParams);
+  protected abstract TaskResult run(TaskParams taskParams) throws TaskExecutionException;
 }

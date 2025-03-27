@@ -1,5 +1,6 @@
 package smartin.platform.task;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import smartin.platform.task.contants.TaskConstants;
+import smartin.platform.task.exception.TaskConfigurationException;
 import smartin.platform.task.impl.GreetingTaskParams;
 import smartin.platform.task.impl.TaskParamsBuilderImpl;
 
@@ -17,11 +19,12 @@ class TaskParamsBuilderTest {
 
   @Test
   @DisplayName("성공:buildTaskParams")
-  void buildTaskParams() throws ClassNotFoundException {
+  void buildTaskParams() {
+
     //Given
     TaskParamsBuilder builder = new TaskParamsBuilderImpl();
     String testId = "GreetingTask";
-    String testType = "smartin.platform.task.impl.GreetingTaskParams";
+    String testType = "GreetingTaskParams";
     String testDataNameKey = "name";
     String testDataNameValue = "홍길동";
     Map<String, Object> testData = Map.of(testDataNameKey, testDataNameValue);
@@ -31,7 +34,8 @@ class TaskParamsBuilderTest {
         TaskConstants.KEY_DATA, testData
     );
     // When
-    TaskParams taskParams = builder.buildTaskParams(params);
+    // 정상시나리오에서는 다른 Exception 발생이 없어야 한다.
+    TaskParams taskParams = assertDoesNotThrow(() -> builder.buildTaskParams(params));
 
     // Then
     // TaskParams는 GreetingTaskParams 클래스 타입이다.
@@ -40,6 +44,8 @@ class TaskParamsBuilderTest {
     assertEquals(testId, taskParams.getId());
     // TaskParams.getData("name")에 "홍길동"이 있음을 확인 한다.
     assertEquals(testData.get(testDataNameKey), taskParams.getData(testDataNameKey));
+
+
   }
 
   @Test
@@ -51,7 +57,8 @@ class TaskParamsBuilderTest {
     // When
     Executable executable = () -> builder.buildTaskParams(params);
     // Then
-    assertThrows(NullPointerException.class, executable);
+    // assertThrows(NullPointerException.class, executable);
+    assertThrows(TaskConfigurationException.class, executable);
   }
 
   @Test
@@ -65,7 +72,8 @@ class TaskParamsBuilderTest {
     // When
     Executable executable = () -> builder.buildTaskParams(params);
     // Then
-    assertThrows(IllegalArgumentException.class, executable);
+    // assertThrows(IllegalArgumentException.class, executable);
+    assertThrows(TaskConfigurationException.class, executable);
   }
 
   @Test
@@ -80,7 +88,8 @@ class TaskParamsBuilderTest {
     // When
     Executable executable = () -> builder.buildTaskParams(params);
     // Then
-    assertThrows(ClassNotFoundException.class, executable);
+    // assertThrows(IllegalArgumentException.class, executable);
+    assertThrows(TaskConfigurationException.class, executable);
   }
 
   @Test
@@ -95,6 +104,7 @@ class TaskParamsBuilderTest {
     // When
     Executable executable = () -> builder.buildTaskParams(params);
     // Then
-    assertThrows(IllegalArgumentException.class, executable);
+    // assertThrows(IllegalArgumentException.class, executable);
+    assertThrows(TaskConfigurationException.class, executable);
   }
 }

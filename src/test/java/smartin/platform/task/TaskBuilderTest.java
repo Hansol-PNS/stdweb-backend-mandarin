@@ -1,5 +1,6 @@
 package smartin.platform.task;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -9,6 +10,7 @@ import static smartin.platform.task.contants.TaskConstants.KEY_TYPE;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
+import smartin.platform.task.exception.TaskConfigurationException;
 import smartin.platform.task.impl.GreetingTask;
 import smartin.platform.task.impl.TaskBuilderImpl;
 import smartin.platform.task.impl.TaskConfigImpl;
@@ -17,19 +19,23 @@ public class TaskBuilderTest {
 
   @Test
   void testBuildTask_WhenValidInput_ShouldCreateTaskSuccessfully() {
+
     Map<String, Object> configMap = new HashMap<>();
     configMap.put(KEY_ID, "id_task_1");
-    configMap.put(KEY_TYPE, "smartin.platform.task.impl.GreetingTask");
+    configMap.put(KEY_TYPE, "GreetingTask");
 
     TaskConfig taskConfig = new TaskConfigImpl(configMap);
     TaskBuilder taskBuilder = new TaskBuilderImpl();
-    Task resultTask = taskBuilder.buildTask(taskConfig);
+
+    // 정상시나리오에서는 다른 Exception 발생이 없어야 한다.
+    Task resultTask = assertDoesNotThrow(() -> taskBuilder.buildTask(taskConfig));
 
     if (resultTask instanceof GreetingTask greetingTask) {
       assertNotNull(greetingTask);
-      assertEquals("id_task_1", greetingTask.getId());
+      assertEquals("id_task_1", GreetingTask.ForTest.getId(greetingTask));
       assertEquals(GreetingTask.class, resultTask.getClass());
     }
+
   }
 
   @Test
@@ -38,7 +44,7 @@ public class TaskBuilderTest {
 
     TaskBuilder taskBuilderImpl = new TaskBuilderImpl();
 
-    assertThrows(NullPointerException.class, () -> {
+    assertThrows(TaskConfigurationException.class, () -> {
       Task resultTask = taskBuilderImpl.buildTask(taskConfig);
     });
   }
@@ -53,7 +59,7 @@ public class TaskBuilderTest {
 
     TaskBuilder taskBuilderImpl = new TaskBuilderImpl();
 
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(TaskConfigurationException.class, () -> {
       Task resultTask = taskBuilderImpl.buildTask(taskConfig);
     });
   }
