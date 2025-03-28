@@ -13,16 +13,19 @@ import org.junit.jupiter.api.function.Executable;
 import smartin.platform.task.contants.TaskConstants;
 import smartin.platform.task.exception.TaskConfigurationException;
 import smartin.platform.task.impl.GreetingTaskParams;
-import smartin.platform.task.impl.TaskParamsBuilderImpl;
+import smartin.platform.task.impl.TaskContainer;
 
 class TaskParamsBuilderTest {
+
+  // static 선언
+  private static final TaskContainer taskContainer = TaskContainer.getInstance();
 
   @Test
   @DisplayName("성공:buildTaskParams")
   void buildTaskParams() {
 
     //Given
-    TaskParamsBuilder builder = new TaskParamsBuilderImpl();
+    TaskParamsBuilder builder = taskContainer.getTaskParamsBuilder();
     String testId = "GreetingTask";
     String testType = "GreetingTaskParams";
     String testDataNameKey = "name";
@@ -52,7 +55,7 @@ class TaskParamsBuilderTest {
   @DisplayName("예외1:params == null 일 경우 예외 발생")
   void buildTaskParams_예외조건_1() {
     // Given
-    TaskParamsBuilder builder = new TaskParamsBuilderImpl();
+    TaskParamsBuilder builder = taskContainer.getTaskParamsBuilder();
     Map<String, Object> params = null;
     // When
     Executable executable = () -> builder.buildTaskParams(params);
@@ -65,7 +68,7 @@ class TaskParamsBuilderTest {
   @DisplayName("예외2:params.get(type) == null 일 경우 예외 발생")
   void buildTaskParams_예외조건_2() {
     // Given
-    TaskParamsBuilder builder = new TaskParamsBuilderImpl();
+    TaskParamsBuilder builder = taskContainer.getTaskParamsBuilder();
     String testType = null;
     Map<String, Object> params = new HashMap<>();
     params.put(TaskConstants.KEY_TYPE, testType);
@@ -80,7 +83,7 @@ class TaskParamsBuilderTest {
   @DisplayName("예외3:params.get(type)에 없는 클래스를 가리키면 예외 발생")
   void buildTaskParams_예외조건_3() {
     // Given
-    TaskParamsBuilder builder = new TaskParamsBuilderImpl();
+    TaskParamsBuilder builder = taskContainer.getTaskParamsBuilder();
     String testType = "예외발생1.class";
     Map<String, Object> params = Map.of(
         TaskConstants.KEY_TYPE, testType
@@ -96,7 +99,7 @@ class TaskParamsBuilderTest {
   @DisplayName("예외4:params.get(type)에 TaskParams 타입이 아닐 경우 예외 발생")
   void buildTaskParams_예외조건_4() {
     // Given
-    TaskParamsBuilder builder = new TaskParamsBuilderImpl();
+    TaskParamsBuilder builder = taskContainer.getTaskParamsBuilder();
     String testType = "smartin.platform.service.ServiceParams";
     Map<String, Object> params = Map.of(
         TaskConstants.KEY_TYPE, testType

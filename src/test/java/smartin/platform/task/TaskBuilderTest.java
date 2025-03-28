@@ -12,10 +12,13 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import smartin.platform.task.exception.TaskConfigurationException;
 import smartin.platform.task.impl.GreetingTask;
-import smartin.platform.task.impl.TaskBuilderImpl;
 import smartin.platform.task.impl.TaskConfigImpl;
+import smartin.platform.task.impl.TaskContainer;
 
 public class TaskBuilderTest {
+
+  // static 선언
+  private static final TaskContainer taskContainer = TaskContainer.getInstance();
 
   @Test
   void testBuildTask_WhenValidInput_ShouldCreateTaskSuccessfully() {
@@ -25,7 +28,8 @@ public class TaskBuilderTest {
     configMap.put(KEY_TYPE, "GreetingTask");
 
     TaskConfig taskConfig = new TaskConfigImpl(configMap);
-    TaskBuilder taskBuilder = new TaskBuilderImpl();
+
+    TaskBuilder taskBuilder = taskContainer.getTaskBuilder();
 
     // 정상시나리오에서는 다른 Exception 발생이 없어야 한다.
     Task resultTask = assertDoesNotThrow(() -> taskBuilder.buildTask(taskConfig));
@@ -42,7 +46,7 @@ public class TaskBuilderTest {
   void testBuildTask_WhenTaskConfigIsNull_ShouldThrowException() {
     TaskConfig taskConfig = null;
 
-    TaskBuilder taskBuilderImpl = new TaskBuilderImpl();
+    TaskBuilder taskBuilderImpl = taskContainer.getTaskBuilder();
 
     assertThrows(TaskConfigurationException.class, () -> {
       Task resultTask = taskBuilderImpl.buildTask(taskConfig);
@@ -57,7 +61,7 @@ public class TaskBuilderTest {
 
     TaskConfig taskConfig = new TaskConfigImpl(configMap);
 
-    TaskBuilder taskBuilderImpl = new TaskBuilderImpl();
+    TaskBuilder taskBuilderImpl = taskContainer.getTaskBuilder();
 
     assertThrows(TaskConfigurationException.class, () -> {
       Task resultTask = taskBuilderImpl.buildTask(taskConfig);

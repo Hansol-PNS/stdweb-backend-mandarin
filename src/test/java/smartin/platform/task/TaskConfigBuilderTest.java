@@ -11,9 +11,12 @@ import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import smartin.platform.task.exception.TaskConfigurationException;
-import smartin.platform.task.impl.TaskConfigBuilderImpl;
+import smartin.platform.task.impl.TaskContainer;
 
 public class TaskConfigBuilderTest {
+
+  // static 선언
+  private static final TaskContainer taskContainer = TaskContainer.getInstance();
 
   @Test
   void testBuildTaskConfig_WhenValidInput_ShouldCreateTaskConfigSuccessfully() {
@@ -22,7 +25,7 @@ public class TaskConfigBuilderTest {
     configMap.put(KEY_ID, "id_task_1");
     configMap.put(KEY_TYPE, "GreetingTask");
 
-    TaskConfigBuilder taskConfigBuilderImpl = new TaskConfigBuilderImpl();
+    TaskConfigBuilder taskConfigBuilderImpl = taskContainer.getTaskConfigBuilder();
     // 정상시나리오에서는 다른 Exception 발생이 없어야 한다.
     TaskConfig config = assertDoesNotThrow(() -> taskConfigBuilderImpl.buildTaskConfig(configMap));
 
@@ -42,7 +45,7 @@ public class TaskConfigBuilderTest {
 
     // assertThrows(IllegalArgumentException.class, () -> {
     assertThrows(TaskConfigurationException.class, () -> {
-      TaskConfigBuilder taskConfigBuilderImpl = new TaskConfigBuilderImpl();
+      TaskConfigBuilder taskConfigBuilderImpl = taskContainer.getTaskConfigBuilder();
       TaskConfig config = taskConfigBuilderImpl.buildTaskConfig(configMap);
     });
   }
