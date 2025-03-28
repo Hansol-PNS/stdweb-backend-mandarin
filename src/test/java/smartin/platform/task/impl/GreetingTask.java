@@ -24,11 +24,12 @@ public class GreetingTask extends TaskAbstract {
     return result;
   }
 
-
-  public static class ForTest {
-
-    public static String getId(GreetingTask task) {
-      return task.getId();
-    }
+  public String getId() {
+    return super.getId();
   }
+
+  public String getType() {
+    return super.getType();
+  }
+
 }

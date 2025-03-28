@@ -6,4 +6,5 @@ import smartin.platform.task.exception.TaskConfigurationException;
 public interface TaskParamsBuilder {
 
   TaskParams buildTaskParams(Map params) throws TaskConfigurationException;
+
 }

@@ -7,18 +7,32 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import smartin.platform.task.container.TaskContainer;
+import smartin.platform.task.container.TaskContainerRegistry;
 import smartin.platform.task.contants.TaskConstants;
 import smartin.platform.task.exception.TaskConfigurationException;
 import smartin.platform.task.impl.GreetingTaskParams;
-import smartin.platform.task.impl.TaskContainer;
+import smartin.platform.task.impl.TaskBuilderImpl;
+import smartin.platform.task.impl.TaskConfigBuilderImpl;
+import smartin.platform.task.impl.TaskParamsBuilderImpl;
 
 class TaskParamsBuilderTest {
 
-  // static 선언
-  private static final TaskContainer taskContainer = TaskContainer.getInstance();
+  // TaskContainer 선언
+  private TaskContainer taskContainer;
+
+  @BeforeEach
+  void setUp() {
+    TaskContainerRegistry registry = new TaskContainerRegistry();
+    registry.setTaskParamsBuilder(new TaskParamsBuilderImpl());
+    registry.setTaskConfigBuilder(new TaskConfigBuilderImpl());
+    registry.setTaskBuilder(new TaskBuilderImpl());
+    taskContainer = TaskContainer.getInstance();
+  }
 
   @Test
   @DisplayName("성공:buildTaskParams")

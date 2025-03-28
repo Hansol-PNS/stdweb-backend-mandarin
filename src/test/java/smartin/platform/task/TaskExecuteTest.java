@@ -8,18 +8,32 @@ import static smartin.platform.task.contants.TaskConstants.KEY_TYPE;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import smartin.platform.task.container.TaskContainer;
+import smartin.platform.task.container.TaskContainerRegistry;
 import smartin.platform.task.contants.TaskConstants;
 import smartin.platform.task.exception.TaskExecutionException;
-import smartin.platform.task.impl.TaskContainer;
+import smartin.platform.task.impl.TaskBuilderImpl;
+import smartin.platform.task.impl.TaskConfigBuilderImpl;
+import smartin.platform.task.impl.TaskParamsBuilderImpl;
 
 @Slf4j
 class TaskExecuteTest {
 
-  // static 선언
-  private static final TaskContainer taskContainer = TaskContainer.getInstance();
+  // TaskContainer 선언
+  private TaskContainer taskContainer;
+
+  @BeforeEach
+  void setUp() {
+    TaskContainerRegistry registry = new TaskContainerRegistry();
+    registry.setTaskParamsBuilder(new TaskParamsBuilderImpl());
+    registry.setTaskConfigBuilder(new TaskConfigBuilderImpl());
+    registry.setTaskBuilder(new TaskBuilderImpl());
+    taskContainer = TaskContainer.getInstance();
+  }
 
   @Test
   @DisplayName("정상:execute()")

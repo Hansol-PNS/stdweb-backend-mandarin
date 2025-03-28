@@ -9,16 +9,30 @@ import static smartin.platform.task.contants.TaskConstants.KEY_TYPE;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import smartin.platform.task.container.TaskContainer;
+import smartin.platform.task.container.TaskContainerRegistry;
 import smartin.platform.task.exception.TaskConfigurationException;
 import smartin.platform.task.impl.GreetingTask;
+import smartin.platform.task.impl.TaskBuilderImpl;
+import smartin.platform.task.impl.TaskConfigBuilderImpl;
 import smartin.platform.task.impl.TaskConfigImpl;
-import smartin.platform.task.impl.TaskContainer;
+import smartin.platform.task.impl.TaskParamsBuilderImpl;
 
 public class TaskBuilderTest {
 
-  // static 선언
-  private static final TaskContainer taskContainer = TaskContainer.getInstance();
+  // TaskContainer 선언
+  private TaskContainer taskContainer;
+
+  @BeforeEach
+  void setUp() {
+    TaskContainerRegistry registry = new TaskContainerRegistry();
+    registry.setTaskParamsBuilder(new TaskParamsBuilderImpl());
+    registry.setTaskConfigBuilder(new TaskConfigBuilderImpl());
+    registry.setTaskBuilder(new TaskBuilderImpl());
+    taskContainer = TaskContainer.getInstance();
+  }
 
   @Test
   void testBuildTask_WhenValidInput_ShouldCreateTaskSuccessfully() {
@@ -32,12 +46,12 @@ public class TaskBuilderTest {
     TaskBuilder taskBuilder = taskContainer.getTaskBuilder();
 
     // 정상시나리오에서는 다른 Exception 발생이 없어야 한다.
-    Task resultTask = assertDoesNotThrow(() -> taskBuilder.buildTask(taskConfig));
+    Task greetingTask = assertDoesNotThrow(() -> taskBuilder.buildTask(taskConfig));
 
-    if (resultTask instanceof GreetingTask greetingTask) {
+    if (greetingTask instanceof GreetingTask) {
       assertNotNull(greetingTask);
-      assertEquals("id_task_1", GreetingTask.ForTest.getId(greetingTask));
-      assertEquals(GreetingTask.class, resultTask.getClass());
+      assertEquals("id_task_1", ((GreetingTask) greetingTask).getId());
+      assertEquals(GreetingTask.class, greetingTask.getClass());
     }
 
   }
