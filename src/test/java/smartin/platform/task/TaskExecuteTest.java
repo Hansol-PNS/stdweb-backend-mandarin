@@ -8,17 +8,32 @@ import static smartin.platform.task.contants.TaskConstants.KEY_TYPE;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import smartin.platform.task.container.TaskContainer;
+import smartin.platform.task.container.TaskContainerRegistry;
 import smartin.platform.task.contants.TaskConstants;
 import smartin.platform.task.exception.TaskExecutionException;
-import smartin.platform.task.impl.GreetingTask;
-import smartin.platform.task.impl.TaskConfigImpl;
+import smartin.platform.task.impl.TaskBuilderImpl;
+import smartin.platform.task.impl.TaskConfigBuilderImpl;
 import smartin.platform.task.impl.TaskParamsBuilderImpl;
 
 @Slf4j
 class TaskExecuteTest {
+
+  // TaskContainer 선언
+  private TaskContainer taskContainer;
+
+  @BeforeEach
+  void setUp() {
+    TaskContainerRegistry registry = new TaskContainerRegistry();
+    registry.setTaskParamsBuilder(new TaskParamsBuilderImpl());
+    registry.setTaskConfigBuilder(new TaskConfigBuilderImpl());
+    registry.setTaskBuilder(new TaskBuilderImpl());
+    taskContainer = TaskContainer.getInstance();
+  }
 
   @Test
   @DisplayName("정상:execute()")
@@ -26,7 +41,7 @@ class TaskExecuteTest {
 
     assertDoesNotThrow(() -> {
       // given
-      TaskParamsBuilder taskParamsBuilder = new TaskParamsBuilderImpl();
+      TaskParamsBuilder taskParamsBuilder = taskContainer.getTaskParamsBuilder();
       String testId = "GreetingTask";
       String testType = "GreetingTaskParams";
       String testDataNameKey = "name";
@@ -37,6 +52,7 @@ class TaskExecuteTest {
           TaskConstants.KEY_TYPE, testType,
           TaskConstants.KEY_DATA, testData
       );
+
       TaskParams taskParams = taskParamsBuilder.buildTaskParams(params);
 
       Map<String, Object> configMap = Map.of(
@@ -44,7 +60,10 @@ class TaskExecuteTest {
           KEY_TYPE, "GreetingTask"
       );
 
-      GreetingTask greetingTask = new GreetingTask(new TaskConfigImpl(configMap));
+      TaskBuilder taskBuilder = taskContainer.getTaskBuilder();
+      TaskConfigBuilder taskConfigBuilder = taskContainer.getTaskConfigBuilder();
+      Task greetingTask = taskBuilder.buildTask(taskConfigBuilder.buildTaskConfig(configMap));
+
       String testTaskResultData = "Hello World, " + testDataNameValue;
 
       // When
@@ -62,9 +81,9 @@ class TaskExecuteTest {
   @DisplayName("예외1:TaskParams == null 일 경우 예외 발생")
   void execute_예외조건_1() {
     // given
-    TaskParamsBuilder taskParamsBuilder = new TaskParamsBuilderImpl();
+//    TaskParamsBuilder taskParamsBuilder = taskContainer.getTaskParamsBuilder();
     String testId = "GreetingTask";
-    String testType = "smartin.platform.task.impl.GreetingTaskParams";
+    String testType = "GreetingTaskParams";
     String testDataNameKey = "name";
     String testDataNameValue = "홍길동";
     Map<String, Object> testData = Map.of(testDataNameKey, testDataNameValue);
@@ -77,10 +96,13 @@ class TaskExecuteTest {
 
     Map<String, Object> configMap = Map.of(
         KEY_ID, "id_task_1",
-        KEY_TYPE, "smartin.platform.task.impl.GreetingTask"
+        KEY_TYPE, "GreetingTask"
     );
 
-    GreetingTask greetingTask = new GreetingTask(new TaskConfigImpl(configMap));
+    TaskBuilder taskBuilder = taskContainer.getTaskBuilder();
+    TaskConfigBuilder taskConfigBuilder = taskContainer.getTaskConfigBuilder();
+    Task greetingTask = assertDoesNotThrow(() -> taskBuilder.buildTask(taskConfigBuilder.buildTaskConfig(configMap)));
+
     String testTaskResultData = "Hello World, " + testDataNameValue;
 
     // When
@@ -95,7 +117,7 @@ class TaskExecuteTest {
   @DisplayName("예외2:TaskParams.getData(”name”)이 null 이거나 비어 있을 경우 예외 발생")
   void execute_예외조건_2() {
     // given
-    TaskParamsBuilder taskParamsBuilder = new TaskParamsBuilderImpl();
+    TaskParamsBuilder taskParamsBuilder = taskContainer.getTaskParamsBuilder();
     String testId = "GreetingTask";
     String testType = "GreetingTaskParams";
     String testDataNameKey = "name";
@@ -114,7 +136,9 @@ class TaskExecuteTest {
         KEY_TYPE, "GreetingTask"
     );
 
-    GreetingTask greetingTask = new GreetingTask(new TaskConfigImpl(configMap));
+    TaskBuilder taskBuilder = taskContainer.getTaskBuilder();
+    TaskConfigBuilder taskConfigBuilder = taskContainer.getTaskConfigBuilder();
+    Task greetingTask = assertDoesNotThrow(() -> taskBuilder.buildTask(taskConfigBuilder.buildTaskConfig(configMap)));
 
     // When
     TaskParams finalTaskParams = taskParams;
